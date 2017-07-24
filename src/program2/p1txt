@@ -1,0 +1,81 @@
+package program1;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+public class Program1 {//@C
+        //Program1
+	public double[] getData(String filepath){//@F
+                //getData
+		ArrayList<Double> data=new ArrayList<Double>();
+		File myfile=new File(filepath);
+		FileReader reader;
+		try {
+			reader = new FileReader(myfile);
+			BufferedReader buffer=new BufferedReader(reader);
+			String line=null;
+			while((line=buffer.readLine())!=null){
+				Double num=Double.valueOf(line);
+				data.add(num);
+			}
+		}
+                catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+                catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		double[] datanew=new double[data.size()];
+		for(int i=0;i<data.size();i++){
+			datanew[i]=data.get(i);
+		}
+		return datanew;
+	}//@f
+	public double average(double[] data){//@F
+                //average
+		DecimalFormat de=new DecimalFormat("#.00");
+		double sum=0;
+		for(int i=0;i<data.length;i++){
+			sum+=data[i];
+		}
+		sum=sum/(0.0+data.length);
+		double check=Double.parseDouble(de.format(sum));
+		if(check-sum==0){
+			return sum;
+		}
+		else{
+			return Double.parseDouble(de.format(sum));
+		}
+		
+	}//@f
+	public double standardDeviation(double[] data){//@F
+                //standardDeviation
+		DecimalFormat de=new DecimalFormat("#.00");
+		int n=data.length-1;
+		double result=0;
+		double average=average(data);
+		for(int i=0;i<data.length;i++){
+			double temp=(data[i]-average)*(data[i]-average);
+			result+=temp;
+		}
+		result=result/(0.0+n);
+		result=Math.pow(result, 0.5);
+		double check=Double.parseDouble(de.format(result));
+		if(check-result==0){
+			return result;
+		}
+		else{
+			return Double.parseDouble(de.format(result));
+		}
+	}//@f
+	public String P1Print(String filepath){//@F
+		//P1Print
+		double[] data=getData(filepath);
+		return "average is:"+average(data)+System.lineSeparator()+"standardDeviation is:"+standardDeviation(data);
+	}//@f
+}//@c
